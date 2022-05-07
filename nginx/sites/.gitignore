@@ -1,2 +1,4 @@
 *.conf
 !default.conf
+!edubit.conf
+!edubit.live.conf
