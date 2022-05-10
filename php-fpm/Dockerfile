@@ -59,7 +59,7 @@ RUN set -xe; \
         docker-php-ext-configure zip --with-libzip; \
       fi && \
       # Install the zip extension
-      docker-php-ext-install zip && \
+      docker-php-ext-install zip mbstring && \
       php -m | grep -q 'zip'
 
 #
