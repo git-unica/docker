@@ -799,6 +799,10 @@ RUN if [ ${NPM_REGISTRY} ]; then \
 COPY ./.npmrc /root/.npmrc
 COPY ./.npmrc /home/laradock/.npmrc
 
+# PM2
+RUN if [ ${INSTALL_NODE} = true ]; then \
+    npm install pm2 -g \
+;fi
 
 ###########################################################################
 # PNPM:
