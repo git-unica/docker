@@ -801,7 +801,8 @@ COPY ./.npmrc /home/laradock/.npmrc
 
 # PM2
 RUN if [ ${INSTALL_NODE} = true ]; then \
-    npm install pm2 -g \
+    npm install pm2 -g && \
+    pm2 install pm2-logrotate \
 ;fi
 
 ###########################################################################
