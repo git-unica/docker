@@ -301,7 +301,9 @@ ARG INSTALL_PHPREDIS=false
 RUN if [ ${INSTALL_PHPREDIS} = true ]; then \
     # Install Php Redis Extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install -o -f redis-4.3.0; \
+      curl http://pecl.php.net/get/redis-4.3.0.tgz -o redis-4.3.0.tgz; \
+      pecl install ./redis-4.3.0.tgz; \
+      rm ./redis-4.3.0.tgz; \
     else \
       pecl install -o -f redis; \
     fi \
@@ -354,7 +356,9 @@ ARG INSTALL_MONGO=false
 RUN if [ ${INSTALL_MONGO} = true ]; then \
     # Install the mongodb extension
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "5" ]; then \
-      pecl install mongo; \
+      curl http://pecl.php.net/get/mongo-1.6.16.tgz -o mongo-1.6.16.tgz; \
+      pecl install ./mongo-1.6.16.tgz; \
+      rm ./mongo-1.6.16.tgz; \
       docker-php-ext-enable mongo; \
       php -m | grep -oiE '^mongo$'; \
     else \
@@ -418,9 +422,11 @@ RUN set -eux; \
       # # Install the amqp extension
       apt-get -yqq install librabbitmq-dev; \
       if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-        pecl install amqp-1.11.0beta; \
+        pecl install amqp-1.11.0; \
       else \
-        pecl install amqp; \
+        curl http://pecl.php.net/get/amqp-1.10.2.tgz -o amqp-1.10.2.tgz; \
+        pecl install ./amqp-1.10.2.tgz; \
+        rm ./amqp-1.10.2.tgz; \
       fi; \
       docker-php-ext-enable amqp; \
       php -m | grep -oiE '^amqp$'; \
@@ -799,7 +805,9 @@ RUN if [ ${INSTALL_IMAGEMAGICK} = true ]; then \
       make install && \
       rm -r /tmp/imagick; \
     else \
-      pecl install imagick; \
+      curl http://pecl.php.net/get/imagick-3.7.0.tgz -o imagick-3.7.0.tgz; \
+      pecl install ./imagick-3.7.0.tgz; \
+      rm ./imagick-3.7.0.tgz; \
     fi && \
     docker-php-ext-enable imagick; \
     php -m | grep -q 'imagick' \
