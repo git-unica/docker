@@ -471,9 +471,11 @@ ARG INSTALL_AMQP=false
 RUN if [ ${INSTALL_AMQP} = true ]; then \
     apt-get install -yqq librabbitmq-dev && \
     if [ $(php -r "echo PHP_MAJOR_VERSION;") = "8" ]; then \
-      printf "\n" | pecl install amqp-1.11.0beta; \
+      pecl install amqp-1.11.0; \
     else \
-      printf "\n" | pecl install amqp; \
+      curl http://pecl.php.net/get/amqp-1.10.2.tgz -o amqp-1.10.2.tgz; \
+      pecl install ./amqp-1.10.2.tgz; \
+      rm ./amqp-1.10.2.tgz; \
     fi && \
     echo "extension=amqp.so" >> /etc/php/${LARADOCK_PHP_VERSION}/mods-available/amqp.ini && \
     ln -s /etc/php/${LARADOCK_PHP_VERSION}/mods-available/amqp.ini /etc/php/${LARADOCK_PHP_VERSION}/cli/conf.d/30-amqp.ini \
