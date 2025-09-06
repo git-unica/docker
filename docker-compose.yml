@@ -181,13 +181,14 @@ services:
         - ./php-worker/supervisord.d:/etc/supervisord.d
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
+        - "mongodb1 mongodb2 mongodb3:10.40.0.242"
       ports:
         - "${WORKSPACE_SSH_PORT}:22"
-        - "${WORKSPACE_BROWSERSYNC_HOST_PORT}:3000"
-        - "${WORKSPACE_BROWSERSYNC_UI_HOST_PORT}:3001"
-        - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
-        - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
-        - "${WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT}:4200"
+        # - "${WORKSPACE_BROWSERSYNC_HOST_PORT}:3000"
+        # - "${WORKSPACE_BROWSERSYNC_UI_HOST_PORT}:3001"
+        # - "${WORKSPACE_VUE_CLI_SERVE_HOST_PORT}:8080"
+        # - "${WORKSPACE_VUE_CLI_UI_HOST_PORT}:8000"
+        # - "${WORKSPACE_ANGULAR_CLI_SERVE_HOST_PORT}:4200"
       tty: true
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
@@ -589,6 +590,7 @@ services:
         - "9000"
       extra_hosts:
         - "dockerhost:${DOCKER_HOST_IP}"
+        - "mongodb1 mongodb2 mongodb3:10.40.0.242"
       environment:
         - PHP_IDE_CONFIG=${PHP_IDE_CONFIG}
         - DOCKER_HOST=tcp://docker-in-docker:2376
@@ -916,6 +918,8 @@ services:
           - http_proxy
           - https_proxy
           - no_proxy
+      extra_hosts:
+          - "mongodb1 mongodb2 mongodb3:10.40.0.242"
       volumes:
         - ${APP_CODE_PATH_HOST}:${APP_CODE_PATH_CONTAINER}${APP_CODE_CONTAINER_FLAG}
         - ${NGINX_HOST_LOG_PATH}:/var/log/nginx
@@ -1527,6 +1531,9 @@ services:
         - cluster.name=laradock-cluster
         - node.name=laradock-node
         - bootstrap.memory_lock=true
+        - xpack.security.enabled=false
+        - xpack.security.transport.ssl.enabled=false
+        - indices.id_field_data.enabled=true
         - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
         - cluster.initial_master_nodes=laradock-node
       ulimits:
